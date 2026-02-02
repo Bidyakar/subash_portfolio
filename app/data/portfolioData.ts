@@ -1,5 +1,5 @@
 export const personalInfo = {
-  name: "Subash Sharma Sapkota",
+  name: "Subash S Sapkota",
   title: "Youth Leader & Marketing Professional",
   description: "A dedicated community leader and marketing professional driving positive change through strategic initiatives, fostering youth development, and building impactful connections across Nepal.",
   location: "Old Baneshwor, Kathmandu, Nepal",

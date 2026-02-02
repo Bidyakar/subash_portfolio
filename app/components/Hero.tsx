@@ -87,7 +87,7 @@ const Hero = () => {
             {/* Hero Image */}
             <Image
               src="/images/sss.jpg"
-              alt="Subash Sharma Sapkota"
+              alt="Subash S Sapkota"
               fill
               className="object-cover grayscale-[20%]"
               priority
