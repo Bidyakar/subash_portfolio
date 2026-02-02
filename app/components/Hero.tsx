@@ -26,9 +26,10 @@ const Hero = () => {
             className="text-5xl md:text-6xl lg:text-7xl font-playfair font-black text-navy leading-tight opacity-0 animate-fade-in"
             style={{ animationDelay: '0.5s' }}
           >
-            {personalInfo.firstName} <br />
-            <span className="text-gradient">{personalInfo.lastName}</span>
+            {personalInfo.name.split(' ')[0]} <br />
+            <span className="text-gradient">{personalInfo.name.split(' ').slice(1).join(' ')}</span>
           </h1>
+
 
           <p
             className="text-lg text-gray-600 leading-relaxed opacity-0 animate-fade-in"
