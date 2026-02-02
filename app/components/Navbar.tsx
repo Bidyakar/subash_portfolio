@@ -29,25 +29,24 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'About' },
-    { href: '#experience', label: 'Experience' },
-    { href: '#projects', label: 'Projects' },
-    { href: '#awards', label: 'Awards' },
-    { href: '#contact', label: 'Contact' },
+    { href: 'home', label: 'Home' },
+    { href: 'about', label: 'About' },
+    { href: 'experience', label: 'Experience' },
+    { href: 'projects', label: 'Projects' },
+    { href: 'awards', label: 'Awards' },
+    { href: 'contact', label: 'Contact' },
   ];
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 animate-slide-down ${
-        isScrolled
+      className={`fixed top-0 w-full z-50 transition-all duration-300 animate-slide-down ${isScrolled
           ? 'bg-white/95 nav-blur shadow-lg'
           : 'bg-white/80 nav-blur'
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center py-6">
-          <Link 
+          <Link
             href="#home"
             className="text-2xl font-playfair font-bold text-navy tracking-wide"
           >
@@ -59,17 +58,15 @@ const Navbar = () => {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`relative font-medium text-sm tracking-wide transition-colors duration-300 ${
-                    activeSection === link.href.slice(1)
+                  className={`relative font-medium text-sm tracking-wide transition-colors duration-300 ${activeSection === link.href.slice(1)
                       ? 'text-orange'
                       : 'text-gray-700 hover:text-orange'
-                  }`}
+                    }`}
                 >
                   {link.label}
                   <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-orange transition-all duration-300 ${
-                      activeSection === link.href.slice(1) ? 'w-full' : 'w-0'
-                    }`}
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-orange transition-all duration-300 ${activeSection === link.href.slice(1) ? 'w-full' : 'w-0'
+                      }`}
                   />
                 </Link>
               </li>
