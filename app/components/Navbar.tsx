@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -29,46 +28,50 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { href: 'home', label: 'Home' },
-    { href: 'about', label: 'About' },
-    { href: 'experience', label: 'Experience' },
-    { href: 'projects', label: 'Projects' },
-    { href: 'awards', label: 'Awards' },
-    { href: 'contact', label: 'Contact' },
+    { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About' },
+    { id: 'experience', label: 'Experience' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'awards', label: 'Awards' },
+    { id: 'contact', label: 'Contact' },
   ];
+
+  // Smooth scroll function
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 animate-slide-down ${isScrolled
-          ? 'bg-white/95 nav-blur shadow-lg'
-          : 'bg-white/80 nav-blur'
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-white/95 nav-blur shadow-lg'
+        : 'bg-white/80 nav-blur'
         }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center py-6">
-          <Link
-            href="#home"
-            className="text-2xl font-playfair font-bold text-navy tracking-wide"
-          >
+          <span className="text-2xl font-playfair font-bold text-navy tracking-wide cursor-pointer" onClick={() => scrollToSection('home')}>
             SSS
-          </Link>
+          </span>
 
           <ul className="hidden md:flex space-x-8">
             {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`relative font-medium text-sm tracking-wide transition-colors duration-300 ${activeSection === link.href.slice(1)
-                      ? 'text-orange'
-                      : 'text-gray-700 hover:text-orange'
+              <li key={link.id}>
+                <span
+                  className={`relative font-medium text-sm tracking-wide cursor-pointer transition-colors duration-300 ${activeSection === link.id
+                    ? 'text-orange'
+                    : 'text-gray-700 hover:text-orange'
                     }`}
+                  onClick={() => scrollToSection(link.id)}
                 >
                   {link.label}
                   <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-orange transition-all duration-300 ${activeSection === link.href.slice(1) ? 'w-full' : 'w-0'
-                      }`}
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-orange transition-all duration-300 ${activeSection === link.id ? 'w-full' : 'w-0'}`}
                   />
-                </Link>
+                </span>
               </li>
             ))}
           </ul>
