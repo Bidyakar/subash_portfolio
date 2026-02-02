@@ -16,7 +16,7 @@ const About = () => {
       },
       { threshold: 0.1 }
     );
-
+ 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
