@@ -79,11 +79,15 @@ const AdminBlog = () => {
                     <Link href="/" className="flex items-center gap-3 text-gray-400 hover:text-[#FF4D00] transition-colors font-bold text-xs uppercase tracking-widest">
                         <span>PORTFOLIO</span>
                     </Link>
-                    <form action={logout}>
-                        <button type="submit" className="flex items-center gap-3 text-red-400 hover:text-red-500 transition-colors font-bold text-xs uppercase tracking-widest text-left w-full">
-                            <span>LOGOUT</span>
-                        </button>
-                    </form>
+                    <button
+                        onClick={async () => {
+                            await logout();
+                            window.location.href = '/admin'; // Force full refresh to clear any client state
+                        }}
+                        className="flex items-center gap-3 text-red-400 hover:text-red-500 transition-colors font-bold text-xs uppercase tracking-widest text-left w-full"
+                    >
+                        <span>LOGOUT</span>
+                    </button>
                 </nav>
             </aside>
 

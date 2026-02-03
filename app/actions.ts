@@ -85,5 +85,6 @@ export async function login(prevState: any, formData: FormData) {
 
 export async function logout() {
     await deleteSession();
+    revalidatePath('/', 'layout'); // Clear all cache
     redirect('/admin');
 }

@@ -3,23 +3,26 @@
 import React, { useFormState, useFormStatus } from 'react-dom';
 import { login } from '@/app/actions';
 
-return (
-    <button
-        type="submit"
-        aria-disabled={pending}
-        disabled={pending}
-        className="w-full py-5 bg-[#FF4D00] text-white font-black text-xs uppercase tracking-[0.2em] rounded-2xl hover:bg-[#0A192F] transition-all shadow-lg shadow-[#FF4D00]/20 mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-    >
-        {pending ? (
-            <>
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                <span>LOGGING IN...</span>
-            </>
-        ) : (
-            "LOGIN DASHBOARD"
-        )}
-    </button>
-);
+const LoginButton = () => {
+    const { pending } = useFormStatus();
+
+    return (
+        <button
+            type="submit"
+            aria-disabled={pending}
+            disabled={pending}
+            className="w-full py-5 bg-[#FF4D00] text-white font-black text-xs uppercase tracking-[0.2em] rounded-2xl hover:bg-[#0A192F] transition-all shadow-lg shadow-[#FF4D00]/20 mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+            {pending ? (
+                <>
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>LOGGING IN...</span>
+                </>
+            ) : (
+                "LOGIN DASHBOARD"
+            )}
+        </button>
+    );
 }
 
 const LoginPage = () => {
