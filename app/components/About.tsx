@@ -16,7 +16,7 @@ const About = () => {
       },
       { threshold: 0.1 }
     );
- 
+
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
@@ -55,9 +55,8 @@ const About = () => {
     <section
       ref={sectionRef}
       id="about"
-      className={`py-24 px-6 lg:px-8 transition-opacity duration-1000 ${
-        isVisible ? 'opacity-100' : 'opacity-0'
-      }`}
+      className={`py-24 px-6 lg:px-8 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'
+        }`}
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
@@ -89,9 +88,12 @@ const About = () => {
             {about.skills.map((skill, index) => (
               <div
                 key={index}
-                className="p-6 bg-white border-l-4 border-orange shadow-md hover:shadow-xl transition-all duration-300 hover:translate-x-2 group"
+                // rounded-2xl for soft corners
+                // border-gray-100 for a subtle, non-sharp outline
+                // Removed all 'hover' and 'group-hover' classes
+                className="p-8 bg-white rounded-2xl border border-gray-100 shadow-sm transition-all duration-300"
               >
-                <div className="text-orange mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-orange mb-4">
                   {iconMap[skill.icon]}
                 </div>
                 <h4 className="text-lg font-semibold text-navy mb-2">

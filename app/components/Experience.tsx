@@ -32,9 +32,8 @@ const Experience = () => {
     <section
       ref={sectionRef}
       id="experience"
-      className={`py-24 px-6 lg:px-8 bg-white transition-opacity duration-1000 ${
-        isVisible ? 'opacity-100' : 'opacity-0'
-      }`}
+      className={`py-24 px-6 lg:px-8 bg-white transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'
+        }`}
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
@@ -50,39 +49,38 @@ const Experience = () => {
         {/* Timeline */}
         <div className="relative max-w-4xl mx-auto">
           {/* Center line */}
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-orange via-orange/50 to-transparent" />
+          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-orange via-orange/30 to-transparent" />
 
           {/* Timeline items */}
           <div className="space-y-12">
             {experiences.map((exp, index) => (
               <div
                 key={index}
-                className={`relative flex items-center ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
-              >
-                {/* Content */}
-                <div
-                  className={`w-full md:w-[45%] p-6 bg-gray-50 hover:bg-white transition-all duration-300 hover:shadow-xl group ${
-                    index % 2 === 0 ? 'md:text-right' : 'md:text-left'
+                className={`relative flex items-center ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                   }`}
+              >
+                {/* Content Card */}
+                <div
+                  className={`w-full md:w-[45%] p-8 bg-white border border-gray-100 rounded-2xl shadow-sm transition-all duration-300 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'
+                    }`}
                 >
                   <div className="text-orange font-semibold text-sm mb-2 tracking-wider">
                     {exp.date}
                   </div>
-                  <h3 className="text-2xl font-playfair font-semibold text-navy mb-2 group-hover:text-orange transition-colors duration-300">
+                  {/* Removed group-hover:text-orange */}
+                  <h3 className="text-2xl font-playfair font-semibold text-navy mb-2">
                     {exp.title}
                   </h3>
                   <h4 className="text-gray-600 font-medium mb-3">
                     {exp.company}
                   </h4>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-gray-600 leading-relaxed text-sm md:text-base">
                     {exp.description}
                   </p>
                 </div>
 
-                {/* Center dot */}
-                <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-5 h-5 bg-orange rounded-full border-4 border-white shadow-lg z-10" />
+                {/* Center dot - kept static to match non-hover style */}
+                <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-orange rounded-full border-4 border-white shadow-sm z-10" />
               </div>
             ))}
           </div>
