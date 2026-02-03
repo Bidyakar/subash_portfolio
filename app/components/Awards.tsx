@@ -10,25 +10,19 @@ const Awards = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    if (sectionRef.current) observer.observe(sectionRef.current);
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
 
-  const iconMap: { [key: string]: JSX.Element } = {
+  const iconMap: Record<string, JSX.Element> = {
     trophy: (
       <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
         <path d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" />
@@ -61,46 +55,60 @@ const Awards = () => {
     <section
       ref={sectionRef}
       id="awards"
-      className={`py-24 px-6 lg:px-8 bg-navy text-white transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'
+      className={`py-24 px-6 lg:px-8 bg-white transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'
         }`}
     >
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
+        {/* Header */}
         <div className="text-center mb-16">
           <div className="text-orange font-semibold text-sm tracking-[0.2em] uppercase mb-4">
             Recognition
           </div>
-          <h2 className="text-4xl md:text-5xl font-playfair font-bold text-white">
+          <h2 className="text-4xl md:text-5xl font-playfair font-bold text-slate-900">
             Awards & Achievements
           </h2>
+          <p className="text-slate-600 mt-4 text-lg max-w-2xl mx-auto">
+            Celebrating milestones and recognitions earned through dedication and leadership
+          </p>
         </div>
 
-        {/* Awards Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Centered Grid */}
+        <div className="flex flex-wrap justify-center gap-8">
           {awards.map((award, index) => (
             <div
               key={index}
-              // Removed hover movement and scale
-              // Added rounded-2xl for soft corners
-              className="text-center p-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl transition-all duration-300 shadow-lg"
+              className="
+                w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)]
+                bg-white rounded-3xl border border-orange/10
+                p-10 text-center
+                shadow-[0_15px_35px_-10px_rgba(249,115,22,0.2)]
+                transition-all duration-300
+                hover:-translate-y-2
+                hover:shadow-[0_25px_50px_-12px_rgba(249,115,22,0.4)]
+                hover:border-orange/30
+              "
             >
-              {/* Icon Container */}
-              <div className="text-orange mb-6 flex justify-center">
-                {iconMap[award.icon]}
+              {/* Icon */}
+              <div className="mb-6 flex justify-center">
+                <div className="w-20 h-20 rounded-2xl bg-orange/5 text-orange flex items-center justify-center">
+                  {iconMap[award.icon]}
+                </div>
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-playfair font-semibold mb-2">
+              <h3 className="text-2xl font-playfair font-bold mb-3 text-slate-900">
                 {award.title}
               </h3>
 
               {/* Year */}
-              <div className="text-orange/90 font-semibold mb-4 text-sm tracking-wider">
-                {award.year}
+              <div className="inline-block px-4 py-1.5 bg-orange/10 rounded-xl mb-4">
+                <span className="text-orange font-bold text-sm tracking-wide">
+                  {award.year}
+                </span>
               </div>
 
               {/* Organization */}
-              <p className="text-white/60 text-sm leading-relaxed">
+              <p className="text-slate-600 text-sm leading-relaxed font-medium">
                 {award.organization}
               </p>
             </div>

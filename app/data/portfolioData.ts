@@ -9,11 +9,13 @@ export const personalInfo = {
     linkedin: "https://www.linkedin.com/in/subashssapkota/",
     facebook: "https://www.facebook.com/subash.s.sapkota",
     instagram: "https://www.instagram.com/subashssapkota/",
+    youtube: "https://www.youtube.com/@SSeries-sss",
+    tiktok: "https://www.tiktok.com/@sseries_sss",
   },
   stats: [
-    { number: "7+", label: "Years of Leadership" },
-    { number: "20+", label: "Events Managed" },
-    { number: "3.95", label: "Academic GPA" },
+    { number: "5+", label: "Years of Leadership" },
+    { number: "10+", label: "Events Managed" },
+
   ],
 };
 
