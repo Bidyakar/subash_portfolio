@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     siteName: 'Subash S Sapkota',
     images: [
       {
-        url: '/images/sssmeta_optimized.png',
+        url: '/images/sssmeta.png',
         width: 1200,
         height: 630,
         alt: 'Subash Sapkota Portfolio Preview',
