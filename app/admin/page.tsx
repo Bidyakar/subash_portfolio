@@ -1,78 +1,103 @@
 'use client';
 
 import React, { useFormState, useFormStatus } from 'react-dom';
-import { login } from '@/app/actions';
+import { login, seedAdmin } from '@/app/actions';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 
 const LoginButton = () => {
     const { pending } = useFormStatus();
 
     return (
-        <button
-            type="submit"
-            aria-disabled={pending}
-            disabled={pending}
-            className="w-full py-5 bg-[#FF4D00] text-white font-black text-xs uppercase tracking-[0.2em] rounded-2xl hover:bg-[#0A192F] transition-all shadow-lg shadow-[#FF4D00]/20 mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-        >
-            {pending ? (
-                <>
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    <span>LOGGING IN...</span>
-                </>
-            ) : (
-                "LOGIN DASHBOARD"
-            )}
-        </button>
+        <Button className="w-full bg-[#FF4D00] hover:bg-[#FF4D00]/90 font-bold" disabled={pending}>
+            {pending ? "Logging in..." : "Login Dashboard"}
+        </Button>
+    );
+}
+
+const SeedButton = () => {
+    const { pending } = useFormStatus();
+    return (
+        <Button variant="outline" size="sm" className="w-full text-xs" disabled={pending}>
+            {pending ? "Seeding..." : "Initialize Admin (First Run)"}
+        </Button>
     );
 }
 
 const LoginPage = () => {
-    const [state, dispatch] = useFormState(login, undefined);
+    const [loginState, loginDispatch] = useFormState(login, undefined);
+    const [seedState, seedDispatch] = useFormState(seedAdmin, undefined);
 
     return (
         <main className="min-h-screen bg-[#0A192F] flex items-center justify-center p-6">
-            <div className="bg-white p-10 rounded-3xl shadow-2xl max-w-md w-full">
-                <div className="text-center mb-10">
-                    <h1 className="font-playfair font-black text-3xl italic mb-2">
+            <Card className="w-full max-w-md bg-white border-0 shadow-2xl">
+                <CardHeader className="text-center space-y-4 pb-8">
+                    <CardTitle className="text-3xl font-black italic font-playfair">
                         Admin<span className="text-[#FF4D00]">.</span>
-                    </h1>
-                    <p className="text-gray-400 text-sm font-bold uppercase tracking-widest">Secure Access</p>
-                </div>
+                    </CardTitle>
+                    <CardDescription className="text-xs font-bold uppercase tracking-widest text-[#0A192F]/60">
+                        Secure Access Portal
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <form action={loginDispatch} className="space-y-4">
+                        {loginState?.error && (
+                            <div className="bg-destructive/10 text-destructive text-sm font-medium p-3 rounded-md text-center">
+                                {loginState.error}
+                            </div>
+                        )}
 
-                <form action={dispatch} className="space-y-6">
-                    {state?.error && (
-                        <div className="bg-red-50 text-red-500 p-4 rounded-xl text-sm font-bold text-center border border-red-100">
-                            {state.error}
+                        <div className="space-y-2">
+                            <Label htmlFor="username">Email / Username</Label>
+                            <Input
+                                id="username"
+                                name="username"
+                                type="text"
+                                placeholder="admin@example.com"
+                                required
+                                className="bg-slate-50"
+                            />
                         </div>
-                    )}
-                    <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase text-gray-400 tracking-tighter">Username</label>
-                        <input
-                            name="username"
-                            type="text"
-                            required
-                            className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-[#FF4D00]/10 border border-transparent focus:border-[#FF4D00]/20 transition-all font-bold text-[#0A192F]"
-                            placeholder="Enter username"
-                        />
+
+                        <div className="space-y-2">
+                            <Label htmlFor="password">Password</Label>
+                            <Input
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="••••••••"
+                                required
+                                className="bg-slate-50"
+                            />
+                        </div>
+
+                        <LoginButton />
+                    </form>
+
+                    <div className="pt-4 border-t">
+                        <form action={seedDispatch}>
+                            {seedState?.success && (
+                                <p className="text-green-600 text-xs text-center mb-2">{seedState.message}</p>
+                            )}
+                            {seedState?.error && (
+                                <p className="text-red-500 text-xs text-center mb-2">{seedState.error}</p>
+                            )}
+                            <SeedButton />
+                            <p className="text-[10px] text-muted-foreground text-center mt-2">
+                                Only helps if no admin exists yet.
+                            </p>
+                        </form>
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase text-gray-400 tracking-tighter">Password</label>
-                        <input
-                            name="password"
-                            type="password"
-                            required
-                            className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-[#FF4D00]/10 border border-transparent focus:border-[#FF4D00]/20 transition-all font-bold text-[#0A192F]"
-                            placeholder="••••••••"
-                        />
-                    </div>
-
-                    <LoginButton />
-
-                    <p className="text-center text-xs text-gray-300 mt-6">
+                </CardContent>
+                <CardFooter className="justify-center">
+                    <p className="text-[10px] text-muted-foreground">
                         Restricted area. Authorized personnel only.
                     </p>
-                </form>
-            </div>
+                </CardFooter>
+            </Card>
         </main>
     );
 };

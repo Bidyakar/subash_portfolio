@@ -17,7 +17,7 @@ const BlogPostPage = () => {
         const fetchPost = async () => {
             try {
                 const posts = await getBlogPosts();
-                const foundPost = posts.find((p) => p.id === Number(id));
+                const foundPost = posts.find((p) => p.id === id);
                 setPost(foundPost || null);
             } catch (error) {
                 console.error("Failed to fetch post:", error);

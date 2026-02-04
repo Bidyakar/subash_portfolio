@@ -15,7 +15,7 @@ const BlogPage = () => {
             try {
                 const data = await getBlogPosts();
                 if (Array.isArray(data)) {
-                    setPosts(data.sort((a, b) => b.id - a.id));
+                    setPosts(data);
                 } else {
                     setPosts([]);
                 }
