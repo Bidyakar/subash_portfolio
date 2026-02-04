@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -46,16 +47,28 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled
-        ? 'bg-white/95 nav-blur shadow-lg'
-        : 'bg-white/80 nav-blur'
+      className={`fixed top-0 w-full z-50 transition-all duration-300
+  ${isScrolled
+          ? 'bg-white/95 nav-blur shadow-lg py-1'
+          : 'bg-white/80 nav-blur'
         }`}
+
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex justify-between items-center py-6">
-          <span className="text-2xl font-playfair font-bold text-navy tracking-wide cursor-pointer" onClick={() => scrollToSection('home')}>
-            SSS
-          </span>
+        <div className="flex justify-between items-center py-1">
+          <div
+            className="flex items-center cursor-pointer group"
+            onClick={() => scrollToSection('home')}
+          >
+            <Image
+              src="/images/sss.svg"
+              alt="Subash S. Sapkota Logo"
+              width={80}
+              height={80}
+              className="transition-transform duration-300 group-hover:scale-110 object-contain "
+              priority
+            />
+          </div>
 
           <ul className="hidden md:flex space-x-8">
             {navLinks.map((link) => (
