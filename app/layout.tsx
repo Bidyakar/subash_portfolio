@@ -12,14 +12,10 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : 'https://subashssapkota.com.np';
-
 export const metadata: Metadata = {
   title: 'Subash S Sapkota | Youth Leader, Marketing Expert & Community Builder',
   description: 'Explore the portfolio of Subash S Sapkota, a dedicated Youth Leader and Marketing Professional. Driving change through community leadership, social work, and innovative marketing strategies.',
-  metadataBase: new URL(baseUrl),
+  metadataBase: new URL('https://subashssapkota.com.np'),
 
   // Favicon and App Icons
   icons: {
