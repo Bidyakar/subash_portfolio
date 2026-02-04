@@ -9,4 +9,12 @@ export interface BlogPost {
     date: string;
 }
 
-export type BlogPostInput = Omit<BlogPost, 'id' | 'date'>;
+export interface BlogPostInput {
+    id?: string; // Optional for updates
+    title: string;
+    category: string;
+    excerpt: string;
+    content: string;
+    imageUrl?: string;
+    isFeatured?: boolean;
+}

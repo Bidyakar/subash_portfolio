@@ -43,20 +43,30 @@ export async function saveBlogPost(data: BlogPostInput) {
         // Check if slug exists, if not generate from title
         const slug = data.title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 
-        // Simple creation for now. In real app, might want update logic if ID provided.
-        // Assuming this is always "create" based on previous code. 
-        // If we want update, we need to pass ID. The previous mock DB generated ID.
-        // Let's rely on Mongoose ID.
-
-        await Article.create({
-            title: data.title,
-            slug: slug + '-' + Date.now(), // Ensure uniqueness
-            category: data.category,
-            excerpt: data.excerpt,
-            content: data.content,
-            imageUrl: data.imageUrl,
-            isFeatured: data.isFeatured,
-        });
+        if (data.id) {
+            // Update existing
+            await Article.findByIdAndUpdate(data.id, {
+                title: data.title,
+                // Do not update slug usually to preserve SEO, or update if desired. 
+                // Let's keep slug stable for now unless explicitly requested.
+                category: data.category,
+                excerpt: data.excerpt,
+                content: data.content,
+                imageUrl: data.imageUrl,
+                isFeatured: data.isFeatured,
+            });
+        } else {
+            // Create new
+            await Article.create({
+                title: data.title,
+                slug: slug + '-' + Date.now(), // Ensure uniqueness
+                category: data.category,
+                excerpt: data.excerpt,
+                content: data.content,
+                imageUrl: data.imageUrl,
+                isFeatured: data.isFeatured,
+            });
+        }
 
         revalidatePath('/blog');
         return { success: true };
@@ -127,27 +137,57 @@ export async function logout() {
     redirect('/admin');
 }
 
-// Temporary Action to Seed Admin
-export async function seedAdmin() {
-    const email = process.env.ADMIN_USERNAME || 'admin@example.com';
-    const password = process.env.ADMIN_PASSWORD || 'password123';
+// Cloudinary Config
+import { v2 as cloudinary } from 'cloudinary';
+
+export async function uploadImage(formData: FormData) {
+    // TEMPORARY: Hardcoded for debugging
+    const cloudName = 'drh4sirjt';
+    const apiKey = '869838243928481';
+    const apiSecret = 'mu7e0LIu6rbRyqrV_1zEmh5P9pI';
+
+    console.log("--- Cloudinary Config Debug ---");
+    console.log(`Cloud Name: ${cloudName ? cloudName : 'MISSING'}`);
+    console.log(`API Key: ${apiKey ? apiKey : 'MISSING'}`);
+    console.log(`API Secret: ${apiSecret ? (apiSecret.length + ' chars') : 'MISSING'}`);
+
+    if (!cloudName || !apiKey || !apiSecret) {
+        console.error("Cloudinary keys missing!");
+        return { success: false, error: 'Server Config Error: Missing Cloudinary Keys' };
+    }
+
+    // Configure Cloudinary for this request (or check if already configured)
+    cloudinary.config({
+        cloud_name: cloudName,
+        api_key: apiKey,
+        api_secret: apiSecret,
+    });
+
+    const file = formData.get('file') as File;
+
+    if (!file) {
+        return { success: false, error: 'No file provided' };
+    }
 
     try {
-        await connectToDatabase();
-        const existing = await User.findOne({ email });
-        if (existing) {
-            return { success: false, message: 'Admin already exists' };
-        }
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        await User.create({
-            name: 'Admin',
-            email,
-            password: hashedPassword,
+        return new Promise<{ success: boolean; url?: string; error?: string }>((resolve, reject) => {
+            cloudinary.uploader.upload_stream(
+                { folder: 'blog_images' }, // Optional folder in Cloudinary
+                (error, result) => {
+                    if (error) {
+                        console.error("Cloudinary Upload Error:", error);
+                        resolve({ success: false, error: error.message });
+                    } else {
+                        resolve({ success: true, url: result?.secure_url });
+                    }
+                }
+            ).end(buffer);
         });
-
-        return { success: true, message: 'Admin created' };
     } catch (error: any) {
+        console.error("Upload Action Error:", error);
         return { success: false, error: error.message };
     }
 }

@@ -13,7 +13,11 @@ export async function createSession() {
 }
 
 export async function deleteSession() {
-    cookies().delete(SESSION_COOKIE_NAME);
+    cookies().delete(SESSION_COOKIE_NAME); // Next.js delete() should handle it, but sometimes explicit options help if it persists.
+    // Actually, cookies().delete(name) is standard. 
+    // Let's try passing the name string only first as per docs, but if it fails, we might need to overwrite it.
+    // Better yet, let's just set it to expire immediately.
+    cookies().set(SESSION_COOKIE_NAME, '', { maxAge: 0, path: '/' });
 }
 
 export async function getSession() {

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useFormState, useFormStatus } from 'react-dom';
-import { login, seedAdmin } from '@/app/actions';
+import { login } from '@/app/actions';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -17,18 +17,8 @@ const LoginButton = () => {
     );
 }
 
-const SeedButton = () => {
-    const { pending } = useFormStatus();
-    return (
-        <Button variant="outline" size="sm" className="w-full text-xs" disabled={pending}>
-            {pending ? "Seeding..." : "Initialize Admin (First Run)"}
-        </Button>
-    );
-}
-
 const LoginPage = () => {
     const [loginState, loginDispatch] = useFormState(login, undefined);
-    const [seedState, seedDispatch] = useFormState(seedAdmin, undefined);
 
     return (
         <main className="min-h-screen bg-[#0A192F] flex items-center justify-center p-6">
@@ -75,22 +65,6 @@ const LoginPage = () => {
 
                         <LoginButton />
                     </form>
-
-                    <div className="pt-4 border-t">
-                        <form action={seedDispatch}>
-                            {seedState?.success && (
-                                <p className="text-green-600 text-xs text-center mb-2">{seedState.message}</p>
-                            )}
-                            {seedState?.error && (
-                                <p className="text-red-500 text-xs text-center mb-2">{seedState.error}</p>
-                            )}
-                            <SeedButton />
-                            <p className="text-[10px] text-muted-foreground text-center mt-2">
-                                Only helps if no admin exists yet.
-                            </p>
-                        </form>
-                    </div>
-
                 </CardContent>
                 <CardFooter className="justify-center">
                     <p className="text-[10px] text-muted-foreground">
