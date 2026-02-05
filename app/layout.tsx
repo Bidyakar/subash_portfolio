@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     siteName: 'Subash S Sapkota',
     images: [
       {
-        url: '/images/sssmeta_optimized.png',
+        url: '/images/sssmeta.jpg',
         width: 1200,
         height: 630,
         alt: 'Subash Sapkota Portfolio Preview',
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Subash S Sapkota | Youth Leader & Marketing Professional',
     description: 'Explore the portfolio of Subash S Sapkota - Youth Leader, Marketing Expert, and Community Builder.',
-    images: ['/images/sssmeta_optimized.png'],
+    images: ['/images/sssmeta.jpg'],
   },
 
 }
