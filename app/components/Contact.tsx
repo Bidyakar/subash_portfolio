@@ -2,6 +2,7 @@
 
 import { personalInfo } from '../data/portfolioData';
 import { useEffect, useRef, useState } from 'react';
+import { sendEmail } from '../actions';
 
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -45,11 +46,26 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      alert('Thank you for your message! I will get back to you soon.');
-      setFormData({ name: '', email: '', message: '' });
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('message', formData.message);
+
+      const result = await sendEmail(formDataToSend);
+
+      if (result.success) {
+        alert('Thank you for your message! I will get back to you soon.');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        alert('Failed to send message: ' + (result.error || 'Unknown error'));
+      }
+    } catch (error: any) {
+      console.error('Contact Form Error:', error);
+      alert('An unexpected error occurred. Please try again later.');
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   return (

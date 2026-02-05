@@ -8,6 +8,7 @@ import { BlogPost, BlogPostInput } from '@/app/lib/types'; // We might need to m
 import { createSession, deleteSession } from '@/app/lib/auth';
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcryptjs';
+import nodemailer from 'nodemailer';
 
 // Map Mongoose document to frontend type
 function mapArticle(doc: any): BlogPost {
@@ -189,5 +190,56 @@ export async function uploadImage(formData: FormData) {
     } catch (error: any) {
         console.error("Upload Action Error:", error);
         return { success: false, error: error.message };
+    }
+}
+
+export async function sendEmail(formData: FormData) {
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
+
+    if (!name || !email || !message) {
+        return { success: false, error: 'Missing required fields' };
+    }
+
+    try {
+        // Use environment variables for SMTP configuration
+        const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST || 'smtp.gmail.com',
+            port: parseInt(process.env.SMTP_PORT || '587'),
+            secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+            auth: {
+                user: process.env.SMTP_USER,
+                pass: process.env.SMTP_PASS,
+            },
+        });
+
+        // Verify transporter configuration
+        await transporter.verify();
+
+        const mailOptions = {
+            from: `"${name}" <${email}>`,
+            to: process.env.CONTACT_EMAIL || 'subashssapkota@gmail.com', // Recipient email
+            subject: `New Contact Form Message from ${name}`,
+            text: message,
+            html: `
+                <div style="font-family: sans-serif; padding: 20px; border: 1:px solid #eee; border-radius: 10px;">
+                    <h2 style="color: #FF4D00;">New Contact Form Submission</h2>
+                    <p><strong>Name:</strong> ${name}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+                    <p><strong>Message:</strong></p>
+                    <p style="white-space: pre-wrap;">${message}</p>
+                </div>
+            `,
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Message sent: %s', info.messageId);
+
+        return { success: true };
+    } catch (error: any) {
+        console.error('Error sending email:', error);
+        return { success: false, error: error.message || 'Failed to send email' };
     }
 }
