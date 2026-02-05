@@ -11,7 +11,7 @@ const Hero = () => {
       className="min-h-screen flex items-center pt-24 pb-12 px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden"
     >
       {/* Animated background */}
-      <div className="absolute top-[-50%] right-[-20%] w-[80%] h-[150%] bg-gradient-radial from-orange/10 to-transparent animate-float" />
+      <div className="absolute top-[-50%] right-[-10%] w-[60%] h-[150%] bg-gradient-radial from-orange/20 to-transparent animate-float" />
 
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center relative z-10 w-full">
 
@@ -98,7 +98,7 @@ const Hero = () => {
 
           {/* Social Links Container */}
           <div
-            className="absolute bottom-6 right-6 flex flex-row items-center gap-3 opacity-0 animate-fade-in"
+            className="absolute bottom-6 right-6 flex flex-row items-center gap-3 opacity-0 animate-fade-in "
             style={{ animationDelay: '1.3s' }}
           >
             {Object.entries(personalInfo.social).map(([key, url]) => (
@@ -107,7 +107,7 @@ const Hero = () => {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 bg-white/95 backdrop-blur-md flex items-center justify-center text-navy hover:bg-orange hover:text-white transition-all duration-300 transform hover:-translate-y-2 shadow-xl border border-gray-100"
+                className="w-12 h-12 rounded-full bg-white/95 backdrop-blur-md flex items-center justify-center text-navy hover:bg-orange hover:text-white transition-all duration-300 transform hover:-translate-y-2 shadow-xl border border-gray-100"
                 title={key}
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

@@ -8,6 +8,8 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto text-center">
         <p className="text-white/70">
           &copy; {currentYear} Subash S Sapkota. All rights reserved.
+          <br />
+          Developed by <a href="https://bidyakar.com.np" target="_blank" rel="noopener noreferrer" className="text-orange">BB</a>
         </p>
       </div>
     </footer>
