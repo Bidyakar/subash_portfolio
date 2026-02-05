@@ -1,43 +1,54 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
 import { getBlogPosts } from '@/app/actions';
 import { BlogPost } from '@/app/lib/types';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { Metadata, ResolvingMetadata } from 'next';
 
-const BlogPostPage = () => {
-    const params = useParams();
-    const id = params.id as string;
+type Props = {
+    params: { id: string }
+    searchParams: { [key: string]: string | string[] | undefined }
+}
 
-    const [post, setPost] = useState<BlogPost | null>(null);
-    const [loading, setLoading] = useState(true);
+export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    const id = params.id;
+    const posts = await getBlogPosts();
+    const post = posts.find((p) => p.id === id);
 
-    useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                const posts = await getBlogPosts();
-                const foundPost = posts.find((p) => p.id === id);
-                setPost(foundPost || null);
-            } catch (error) {
-                console.error("Failed to fetch post:", error);
-            } finally {
-                setLoading(false);
-            }
+    if (!post) {
+        return {
+            title: 'Article Not Found',
         };
-
-        if (id) {
-            fetchPost();
-        }
-    }, [id]);
-
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-white flex justify-center items-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FF4D00]"></div>
-            </div>
-        );
     }
+
+    const previousImages = (await parent).openGraph?.images || [];
+
+    return {
+        title: `${post.title} | Subash S Sapkota`,
+        description: post.excerpt,
+        openGraph: {
+            title: post.title,
+            description: post.excerpt,
+            url: `https://subashssapkota.com.np/blog/${id}`,
+            siteName: 'Subash S Sapkota',
+            images: post.imageUrl ? [post.imageUrl, ...previousImages] : previousImages,
+            locale: 'en_US',
+            type: 'article',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: post.excerpt,
+            images: post.imageUrl ? [post.imageUrl] : [],
+        },
+    };
+}
+
+export default async function BlogPostPage({ params }: Props) {
+    const id = params.id;
+    const posts = await getBlogPosts();
+    const post = posts.find((p) => p.id === id);
 
     if (!post) {
         return (
@@ -96,6 +107,4 @@ const BlogPostPage = () => {
             </article>
         </main>
     );
-};
-
-export default BlogPostPage;
+}

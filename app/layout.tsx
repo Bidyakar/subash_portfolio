@@ -17,11 +17,10 @@ export const metadata: Metadata = {
   description: 'Explore the portfolio of Subash S Sapkota, a dedicated Youth Leader and Marketing Professional. Driving change through community leadership, social work, and innovative marketing strategies.',
   metadataBase: new URL('https://subashssapkota.com.np'),
 
-  // Favicon and App Icons
   icons: {
-    icon: '/favicon.ico', // Place favicon.ico in /public
-    shortcut: '/icon.png', // Place icon.png in /public
-    apple: '/apple-touch-icon.png', // Place apple-touch-icon.png in /public
+    icon: '/images/sss.svg',
+    shortcut: '/images/sss.svg',
+    apple: '/images/sss.svg',
   },
 
   keywords: [
