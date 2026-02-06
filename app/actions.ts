@@ -23,6 +23,7 @@ function mapArticle(doc: any): BlogPost {
         date: new Date(doc.createdAt).toLocaleDateString('en-US', {
             month: 'short', day: 'numeric', year: 'numeric'
         }),
+        updatedAt: doc.updatedAt.toISOString(),
     };
 }
 

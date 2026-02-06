@@ -13,6 +13,7 @@ import {
     Zap
 } from 'lucide-react';
 import Link from 'next/link';
+import RelativeTime from '@/components/RelativeTime';
 
 export default async function DashboardPage() {
     const posts = await getBlogPosts();
@@ -44,6 +45,14 @@ export default async function DashboardPage() {
     // Latest activity
     const recentPosts = [...posts].slice(0, 4);
 
+    // Latest update time
+    const latestUpdate = posts.length > 0
+        ? posts.reduce((latest, post) => {
+            const current = new Date(post.updatedAt).getTime();
+            return current > latest ? current : latest;
+        }, 0)
+        : new Date().getTime();
+
     return (
         <div className="space-y-10 pb-10">
             {/* Header Section */}
@@ -54,9 +63,9 @@ export default async function DashboardPage() {
                     </h1>
                     <p className="text-slate-500 font-medium">Real-time overview of your content performance and strategy.</p>
                 </div>
-                <div className="flex items-center gap-2 text-xs font-bold text-[#FF4D00] bg-orange/5 px-4 py-2 rounded-full border border-orange/10">
+                <div className="flex items-center gap-2 text-xs font-bold text-[#FF4D00] bg-orange/5 px-4 py-2 rounded-full border border-orange/10 uppercase">
                     <Clock size={14} />
-                    UPDATED JUST NOW
+                    UPDATED <RelativeTime timestamp={new Date(latestUpdate).toISOString()} />
                 </div>
             </div>
 

@@ -7,6 +7,7 @@ export interface BlogPost {
     imageUrl?: string;
     isFeatured: boolean;
     date: string;
+    updatedAt: string;
 }
 
 export interface BlogPostInput {
